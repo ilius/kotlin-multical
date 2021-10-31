@@ -31,21 +31,19 @@ class Gregorian {
         fun isLeap(year: Int):Boolean {
             return year%4 == 0 && (year%100 != 0 || year%400 == 0)
         }
-        fun toJd(d: LocalDate):Int {
-            return J1970 + d.toEpochDay().toInt()
+        fun toJd(d: Date):Int {
+            return J1970 + LocalDate.of(d.year, d.month, d.day).toEpochDay().toInt()
         }
-        fun jdTo(jd: Int): LocalDate {
-            var epochDay = (jd - J1970).toLong()
-            val d = LocalDate.ofEpochDay(epochDay)
-            return d
+        fun jdTo(jd: Int): Date {
+            return Date(LocalDate.ofEpochDay((jd - J1970).toLong()))
         }
     }
 }
 
 
 
-fun main(args: Array<String>) {
-    val d = LocalDate.now()
+fun main() {
+    val d = Date(LocalDate.now())
     val jd = Gregorian.toJd(d)
     println(kotlin.String.format("jd = %d", jd))
     val d2 = Gregorian.jdTo(jd)

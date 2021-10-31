@@ -1,5 +1,4 @@
 
-import java.time.LocalDate
 import java.util.Arrays
 
 
@@ -34,7 +33,7 @@ class Jalali {
             return (((y-473)%2820)*682)%2816 < 682
         }
         
-        fun toJd(d: LocalDate):Int {
+        fun toJd(d: Date):Int {
             // calculate Julian day from Jalali date
             // using 2820-years algorithm
             var epbase:Int
@@ -44,21 +43,21 @@ class Jalali {
                 epbase = 473
             }
             val epyear = 474 + epbase%2820
-            var tmpMonth = d.monthValue - 1
+            var tmpMonth = d.month - 1
             if (tmpMonth > 6) {
                 tmpMonth = 6
             }
-            return d.dayOfMonth +
-                (d.monthValue-1)*30 + tmpMonth +
+            return d.day +
+                (d.month-1)*30 + tmpMonth +
                 (epyear*682-110)/2816 +
                 (epyear-1)*365 +
                 epbase/2820*1029983 +
                 epoch - 1
         }
-        fun jdTo(jd: Int): LocalDate {
+        fun jdTo(jd: Int): Date {
             // calculate Jalali date from Julian day
             // using 2820-years algorithm
-            var deltaDays = jd - toJd(LocalDate.of(475, 1, 1))
+            var deltaDays = jd - toJd(Date(475, 1, 1))
             var cycle = deltaDays / 1029983
             var cyear = deltaDays % 1029983
             var ycycle:Int
@@ -71,7 +70,7 @@ class Jalali {
             if (year <= 0) {
                 year--
             }
-            var yday = jd - toJd(LocalDate.of(year, 1, 1)) + 1
+            var yday = jd - toJd(Date(year, 1, 1)) + 1
 			var month = Arrays.binarySearch(monthLenSum, yday) // FIXME: correct?
 			if (month < 0) {
 				// month == -insertion_point - 1
@@ -80,13 +79,13 @@ class Jalali {
 			}
 			// println(kotlin.String.format("month = %d", month))
             var day = yday - monthLenSum[month-1]
-            return LocalDate.of(year, month, day)
+            return Date(year, month, day)
         }
     }
 }
 
 fun main(args: Array<String>) {
-    val d0 = LocalDate.of(1397, 1, 1)
+    val d0 = Date(1397, 1, 1)
     val jd0 = Jalali.toJd(d0)
 	for (jd in jd0 .. jd0 + 1000) {
 		val d = Jalali.jdTo(jd)

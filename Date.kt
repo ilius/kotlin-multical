@@ -1,10 +1,13 @@
+import java.time.LocalDate
 
-class Date {
-	companion object {
-        const val year:Int
-		const val month:Int
-		const val day:Int
-	}
-	of(year:Int, month:Int, day:Int):Date {
+class Date(_year:Int, _month:Int, _day:Int) {
+    val year:Int = _year
+	val month:Int = _month
+	val day:Int = _day
+
+    constructor(d:LocalDate): this(d.year, d.monthValue, d.dayOfMonth)
+
+	init {
 	}
 }
+
