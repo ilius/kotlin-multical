@@ -4,21 +4,18 @@
  */
 
 import java.time.LocalDate
-import java.time.ZoneOffset
-import java.util.Arrays
-
 
 class Gregorian {
     companion object {
-        const val name        = "gregorian"
-        const val desc        = "Gregorian"
-        const val epoch       = 1721426
+        const val name = "gregorian"
+        const val desc = "Gregorian"
+        const val epoch = 1721426
         const val minMonthLen = 29
         const val maxMonthLen = 31
-        const val avgYearLen  = 365.2425 // FIXME
-        
-        const val J1970:Int   = 2440588
-        
+        const val avgYearLen = 365.2425 // FIXME
+
+        const val J1970: Int = 2440588
+
         val monthNames = arrayOf(
             "January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
@@ -27,11 +24,11 @@ class Gregorian {
             "Jan", "Feb", "Mar", "Apr", "May", "Jun",
             "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
         )
-        
-        fun isLeap(year: Int):Boolean {
-            return year%4 == 0 && (year%100 != 0 || year%400 == 0)
+
+        fun isLeap(year: Int): Boolean {
+            return year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)
         }
-        fun toJd(d: Date):Int {
+        fun toJd(d: Date): Int {
             return J1970 + LocalDate.of(d.year, d.month, d.day).toEpochDay().toInt()
         }
         fun jdTo(jd: Int): Date {
@@ -39,8 +36,6 @@ class Gregorian {
         }
     }
 }
-
-
 
 fun main() {
     val d = Date(LocalDate.now())
